@@ -9,7 +9,7 @@ nix_user_chroot_cmd="$nix_user_chroot_dir/$nix_user_chroot"
 userns=$(/sbin/sysctl -n kernel.unprivileged_userns_clone)
 
 if [ "$userns" == "0" ]; then
-    echo "Need user namespace feature, execute following:"
+    echo "Need user namespace feature, you can enable it with the following command:"
     echo "sudo sysctl -w kernel.unprivileged_userns_clone=1"
     exit 1
 fi
@@ -29,6 +29,7 @@ if [ ! -d $nix_store_dir ]; then
     eval $install_nix
 fi
 
+clear
 echo "Activate Nix"
 nix_user_chroot_bash="$nix_user_chroot_cmd $nix_store_dir bash --rcfile '$HOME/.nix-profile/etc/profile.d/nix.sh'"
 eval $nix_user_chroot_bash
