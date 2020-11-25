@@ -19,6 +19,8 @@ if [ ! -f $nix_user_chroot_cmd ]; then
     mkdir -p $nix_user_chroot_dir
     curl -L $nix_user_chroot_url --output $nix_user_chroot_cmd
     chmod 755 $nix_user_chroot_cmd
+    echo "export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive" > $nix_user_chroot_dir/nix_setenv.sh
+    echo "source $HOME/.nix-profile/etc/profile.d/nix.sh" >> $nix_user_chroot_dir/nix_setenv.sh
 fi
 
 nix_store_dir="$HOME/.nix"
@@ -27,9 +29,10 @@ if [ ! -d $nix_store_dir ]; then
     mkdir -m 0755 "$HOME/.nix"
     install_nix="$nix_user_chroot_cmd $nix_store_dir bash -c 'curl -L https://nixos.org/nix/install | bash'"
     eval $install_nix
+    
 fi
 
 clear
 echo "Activate Nix"
-nix_user_chroot_bash="$nix_user_chroot_cmd $nix_store_dir bash --rcfile '$HOME/.nix-profile/etc/profile.d/nix.sh'"
+nix_user_chroot_bash="$nix_user_chroot_cmd $nix_store_dir bash --rcfile $nix_user_chroot_dir/nix_setenv.sh"
 eval $nix_user_chroot_bash
