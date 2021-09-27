@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="1.2.1"
+version="1.2.2"
 nix_user_chroot_url="https://github.com/nix-community/nix-user-chroot/releases/download/$version/nix-user-chroot-bin-$version-x86_64-unknown-linux-musl"
 nix_user_chroot="nix_user_chroot_$version"
 nix_user_chroot_dir="$HOME/.nix_user_chroot"
